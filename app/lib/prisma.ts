@@ -1,12 +1,10 @@
 import { PrismaClient } from "../generated/prisma/client";
 import { PrismaNeon } from "@prisma/adapter-neon";
 
-const globalForPrisma = globalThis as unknown as {
-  prisma: PrismaClient | undefined;
-};
+const globalForPrisma = globalThis as unknown as { prisma: PrismaClient | undefined };
 
 const adapter = new PrismaNeon({
-  connectionString: process.env.DATABASE_URL!,
+  connectionString: process.env.DATABASE_URL ?? "postgresql://user:pass@localhost:5432/owldesk",
 });
 
 export const prisma = globalForPrisma.prisma ?? new PrismaClient({ adapter });
